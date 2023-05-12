@@ -33,7 +33,6 @@ def add_args(arg_parser: ArgumentParser) -> None:
     )
 
 
-
 def app_dry_run(manifest: Dict, config_path: str = None) -> None:
     env = Environment(extensions=["jinja2.ext.do", "jinja2.ext.loopcontrols"])
     template = env.from_string(manifest["source"])
