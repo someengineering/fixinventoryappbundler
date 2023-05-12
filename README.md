@@ -1,5 +1,5 @@
-# `resotoappbundler`
-Resoto Infrastructure Apps Bundler
+# `resotoappbundler` / `resotoapprunner`
+Resoto Infrastructure Apps Bundler and Runner
 
 
 ## Table of contents
@@ -12,8 +12,11 @@ Resoto Infrastructure Apps Bundler
 
 ## Overview
 `resotoappbundler` Bundles Resoto Infrastructure Apps.
+
 `resotoapprunner` Dry runs Resoto Infrastructure Apps.
 
+
+Check [the Resoto Infrastructure Apps repo](https://github.com/someengineering/resoto-apps) for details.
 
 ## Usage of `resotoappbundler`
 
@@ -81,7 +84,7 @@ If you have any questions feel free to [join our Discord](https://discord.gg/som
 
 ## License
 ```
-Copyright 2022 Some Engineering Inc.
+Copyright 2023 Some Engineering Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
