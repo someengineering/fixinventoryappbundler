@@ -72,7 +72,19 @@ def app_manifest(app_path: Path) -> Dict[str, Union[str, List, Dict]]:
     source = app_source.read_text()
     manifest = yaml.load(app_manifest.read_text(), Loader=yaml.FullLoader)
 
-    for key in ["name", "description", "version", "language", "license", "authors", "url", "categories", "default_config", "config_schema", "args_schema"]:
+    for key in [
+        "name",
+        "description",
+        "version",
+        "language",
+        "license",
+        "authors",
+        "url",
+        "categories",
+        "default_config",
+        "config_schema",
+        "args_schema",
+    ]:
         if key not in manifest:
             raise ValueError(f"Key {key} is missing from {app_manifest}")
 
