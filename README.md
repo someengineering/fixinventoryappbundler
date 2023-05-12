@@ -11,14 +11,16 @@ Resoto Infrastructure Apps Bundler
 
 
 ## Overview
-`resotoappbundler` bundles Infrastructure Apps.
+`resotoappbundler` bundles Resoto Infrastructure Apps.
 
 
-## Usage
-`resotoappbundler` uses the following commandline arguments:
+## Usage of `resotoappbundler`
+
+```bash
+resotoappbundler --discover --path . > index.json
 ```
-  --verbose, -v         Verbose logging
-```
+
+This command discovers all apps in the current directory and writes the index to `index.json`. This file can then be uploaded to a http server like a CDN and used as an app index in Resoto.
 
 
 ## Contact
