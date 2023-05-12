@@ -19,7 +19,8 @@ setup(
     long_description_content_type="text/markdown",
     entry_points={
         "console_scripts": [
-            "resotoappbundler = resotoappbundler.__main__:main",
+            "resotoappbundler = resotoappbundler.__main__:bundle",
+            "resotoapprunner = resotoappbundler.__main__:run",
         ]
     },
     include_package_data=True,
