@@ -28,14 +28,14 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{runner.os}}-pip-${{hashFiles('./resotoappbundler/requirements.txt')}}
+          key: ${{runner.os}}-pip-${{hashFiles('./requirements.txt')}}
           restore-keys: |
             ${{runner.os}}-pip-
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install tox wheel flake8 build
+          pip install tox wheel flake8 build twine black
 
       - name: Run tests
         working-directory: ./
