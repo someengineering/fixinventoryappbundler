@@ -55,7 +55,7 @@ def bundle() -> None:
 
 def run() -> None:
     setup_logger("resotoapprunner")
-    arg_parser = ArgumentParser(description="Resoto Infrastructure Apps Bundler")
+    arg_parser = ArgumentParser(description="Resoto Infrastructure Apps Runner")
     logging_add_args(arg_parser)
     add_args(arg_parser)
     runner_add_args(arg_parser)
