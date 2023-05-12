@@ -59,14 +59,14 @@ def run() -> None:
     logging_add_args(arg_parser)
     add_args(arg_parser)
     runner_add_args(arg_parser)
-    arg_parser.parse_args()
+    args, argv = arg_parser.parse_known_args()
 
-    app_path = Path(arg_parser.args.app_path)
+    app_path = Path(args.app_path)
     if not app_path.is_dir():
         log.error(f"Path {app_path} is not a directory")
         sys.exit(1)
 
-    app_dry_run(app_manifest(app_path), arg_parser.args.config_path)
+    app_dry_run(app_manifest(app_path), args.config_path, argv)
 
 
 if __name__ == "__main__":

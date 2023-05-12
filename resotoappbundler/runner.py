@@ -1,14 +1,16 @@
 import yaml
 from pathlib import Path
 from jinja2 import Environment
+from argparse import ArgumentParser
 from resotolib.logger import log
-from resotolib.args import ArgumentParser
 from resotolib.durations import parse_optional_duration
+from resotolib.utils import stdin_generator
 from resotolib.core.search import CoreGraph
 from resotolib.core.ca import TLSData
 from resotolib.core import add_args as core_add_args, resotocore
 from resotolib.jwt import add_args as jwt_add_args
-from typing import Dict, Optional
+from typing import Dict, Optional, List, Type
+from pydoc import locate
 
 
 def add_args(arg_parser: ArgumentParser) -> None:
@@ -33,10 +35,14 @@ def add_args(arg_parser: ArgumentParser) -> None:
     )
 
 
-def app_dry_run(manifest: Dict, config_path: str = None) -> None:
+def app_dry_run(manifest: Dict, config_path: str = None, argv: Optional[List[str]] = None) -> None:
     env = Environment(extensions=["jinja2.ext.do", "jinja2.ext.loopcontrols"])
     template = env.from_string(manifest["source"])
     template.globals["parse_duration"] = parse_optional_duration
+    template.globals["stdin"] = stdin_generator()
+
+    args = args_from_manifest(manifest, argv)
+    template.globals["args"] = args
 
     if "search(" in manifest["source"]:
         tls_data: Optional[TLSData] = None
@@ -66,3 +72,37 @@ def app_dry_run(manifest: Dict, config_path: str = None) -> None:
             print(command)
     except Exception:
         log.exception("Failed to render app")
+
+
+def args_from_manifest(manifest: Dict, argv: Optional[List[str]] = None) -> ArgumentParser:
+    args_schema = manifest.get("args_schema", {})
+
+    parser = ArgumentParser(description=manifest.get("description"))
+
+    def str_to_type(type_str: Optional[str] = None) -> Optional[Type]:
+        if type_str is None:
+            return None
+        supported_types = {"bool", "str", "int", "float", "complex"}
+        if type_str not in supported_types:
+            raise ValueError(f"Unsupported type: {type_str}")
+        return locate(type_str)
+
+    for arg_name, arg_info in args_schema.items():
+        help_text = arg_info.get("help")
+        action = arg_info.get("action")
+        default_value = arg_info.get("default")
+        arg_type_str = arg_info.get("type")
+        nargs = arg_info.get("nargs")
+        required = arg_info.get("required")
+
+        parser.add_argument(
+            f"--{arg_name}",
+            help=help_text,
+            action=action,
+            default=default_value,
+            type=str_to_type(arg_type_str),
+            nargs=nargs,
+            required=required,
+        )
+
+    return parser.parse_args(argv)
