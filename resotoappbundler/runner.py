@@ -1,7 +1,7 @@
 import yaml
 from pathlib import Path
 from jinja2 import Environment
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Namespace
 from resotolib.logger import log
 from resotolib.durations import parse_optional_duration
 from resotolib.utils import stdin_generator
@@ -74,7 +74,7 @@ def app_dry_run(manifest: Dict, config_path: str = None, argv: Optional[List[str
         log.exception("Failed to render app")
 
 
-def args_from_manifest(manifest: Dict, argv: Optional[List[str]] = None) -> ArgumentParser:
+def args_from_manifest(manifest: Dict, argv: Optional[List[str]] = None) -> Namespace:
     args_schema = manifest.get("args_schema", {})
 
     parser = ArgumentParser(description=manifest.get("description"))
