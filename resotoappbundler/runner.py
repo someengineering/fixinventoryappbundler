@@ -1,7 +1,9 @@
 import yaml
+import json
 from pathlib import Path
 from jinja2 import Environment
 from argparse import ArgumentParser, Namespace
+from resotolib.types import JsonElement
 from resotolib.logger import log
 from resotolib.durations import parse_optional_duration
 from resotolib.utils import stdin_generator
@@ -9,7 +11,7 @@ from resotolib.core.search import CoreGraph
 from resotolib.core.ca import TLSData
 from resotolib.core import add_args as core_add_args, resotocore
 from resotolib.jwt import add_args as jwt_add_args
-from typing import Dict, Optional, List, Type
+from typing import Dict, Optional, List, Type, Iterator, Union
 from pydoc import locate
 
 
@@ -35,11 +37,19 @@ def add_args(arg_parser: ArgumentParser) -> None:
     )
 
 
+def str2json(generator: Iterator[str]) -> Iterator[Union[str, JsonElement]]:
+    for line in generator:
+        try:
+            yield json.loads(line)
+        except json.JSONDecodeError:
+            yield line
+
+
 def app_dry_run(manifest: Dict, config_path: str = None, argv: Optional[List[str]] = None) -> None:
     env = Environment(extensions=["jinja2.ext.do", "jinja2.ext.loopcontrols"])
     template = env.from_string(manifest["source"])
     template.globals["parse_duration"] = parse_optional_duration
-    template.globals["stdin"] = stdin_generator()
+    template.globals["stdin"] = str2json(stdin_generator())
 
     args = args_from_manifest(manifest, argv)
     template.globals["args"] = args
