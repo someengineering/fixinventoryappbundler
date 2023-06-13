@@ -98,21 +98,16 @@ def args_from_manifest(manifest: Dict, argv: Optional[List[str]] = None) -> Name
         return locate(type_str)
 
     for arg_name, arg_info in args_schema.items():
-        help_text = arg_info.get("help")
-        action = arg_info.get("action")
-        default_value = arg_info.get("default")
-        arg_type_str = arg_info.get("type")
-        nargs = arg_info.get("nargs")
-        required = arg_info.get("required")
-
+        kwargs = {}
+        for flag in ["help", "action", "default", "type", "nargs", "required"]:
+            if flag in arg_info:
+                if flag == "type":
+                    kwargs[flag] = str_to_type(arg_info[flag])
+                else:
+                    kwargs[flag] = arg_info[flag]
         parser.add_argument(
             f"--{arg_name}",
-            help=help_text,
-            action=action,
-            default=default_value,
-            type=str_to_type(arg_type_str),
-            nargs=nargs,
-            required=required,
+            **kwargs,
         )
 
     return parser.parse_args(argv)
