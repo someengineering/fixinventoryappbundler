@@ -1,6 +1,6 @@
 import os
 import pkg_resources
-import resotoappbundler
+import fixinventoryappbundler
 from setuptools import setup, find_packages
 
 
@@ -10,17 +10,17 @@ def read(file_name: str) -> str:
 
 
 setup(
-    name=resotoappbundler.__title__,
-    version=resotoappbundler.__version__,
-    description=resotoappbundler.__description__,
-    license=resotoappbundler.__license__,
+    name=fixinventoryappbundler.__title__,
+    version=fixinventoryappbundler.__version__,
+    description=fixinventoryappbundler.__description__,
+    license=fixinventoryappbundler.__license__,
     packages=find_packages(),
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     entry_points={
         "console_scripts": [
-            "resotoappbundler = resotoappbundler.__main__:bundle",
-            "resotoapprunner = resotoappbundler.__main__:run",
+            "fixinventoryappbundler = fixinventoryappbundler.__main__:bundle",
+            "fixinventoryapprunner = fixinventoryappbundler.__main__:run",
         ]
     },
     include_package_data=True,
@@ -48,5 +48,5 @@ setup(
         "Topic :: Utilities",
     ],
     keywords="cloud security",
-    url="https://github.com/someengineering/resoto-apps/tree/main/resotoappbundler",
+    url="https://github.com/someengineering/fixinventoryappbundler",
 )
