@@ -1,14 +1,14 @@
 import sys
 import json
 from pathlib import Path
-from resotolib.logger import log, setup_logger, add_args as logging_add_args
-from resotolib.args import ArgumentParser
+from fixlib.logger import log, setup_logger, add_args as logging_add_args
+from fixlib.args import ArgumentParser
 from .runner import app_dry_run, add_args as runner_add_args
 from .bundler import app_manifest, add_args as bundler_add_args
 
 
 def main() -> None:
-    print("Call resotoappbundler or resotoapprunner")
+    print("Call fixinventoryappbundler or fixinventoryapprunner")
     sys.exit(1)
 
 
@@ -24,8 +24,8 @@ def add_args(arg_parser: ArgumentParser) -> None:
 
 
 def bundle() -> None:
-    setup_logger("resotoappbundler")
-    arg_parser = ArgumentParser(description="Resoto Infrastructure Apps Bundler")
+    setup_logger("fixinventoryappbundler")
+    arg_parser = ArgumentParser(description="Fix Inventory Infrastructure Apps Bundler")
     logging_add_args(arg_parser)
     add_args(arg_parser)
     bundler_add_args(arg_parser)
@@ -54,8 +54,8 @@ def bundle() -> None:
 
 
 def run() -> None:
-    setup_logger("resotoapprunner")
-    arg_parser = ArgumentParser(description="Resoto Infrastructure Apps Runner")
+    setup_logger("fixinventoryapprunner")
+    arg_parser = ArgumentParser(description="Fix Inventory Infrastructure Apps Runner")
     logging_add_args(arg_parser)
     add_args(arg_parser)
     runner_add_args(arg_parser)

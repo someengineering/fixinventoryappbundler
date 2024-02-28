@@ -1,4 +1,4 @@
-name: Check PR Resoto Infrastucture Apps Bundler
+name: Check PR Fix Inventory Infrastucture Apps Bundler
 on:
   push:
     tags:
@@ -7,12 +7,12 @@ on:
       - main
   pull_request:
     paths:
-      - "resotoappbundler/**"
+      - "fixinventoryappbundler/**"
       - ".github/**"
 
 jobs:
-  resotoappbundler:
-    name: "resotoappbundler" # Do not rename without updating workflow defined in publish.yml
+  fixinventoryappbundler:
+    name: "fixinventoryappbundler" # Do not rename without updating workflow defined in publish.yml
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -61,5 +61,5 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
-          password: ${{ secrets.PYPI_RESOTOAPPBUNDLER }}
+          password: ${{ secrets.PYPI_FIXINVENTORYAPPBUNDLER }}
           packages_dir: ./dist/

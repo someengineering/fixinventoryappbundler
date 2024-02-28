@@ -3,14 +3,14 @@ import json
 from pathlib import Path
 from jinja2 import Environment
 from argparse import ArgumentParser, Namespace
-from resotolib.types import JsonElement
-from resotolib.logger import log
-from resotolib.durations import parse_optional_duration
-from resotolib.utils import stdin_generator
-from resotolib.core.search import CoreGraph
-from resotolib.core.ca import TLSData
-from resotolib.core import add_args as core_add_args, resotocore
-from resotolib.jwt import add_args as jwt_add_args
+from fixlib.types import JsonElement
+from fixlib.logger import log
+from fixlib.durations import parse_optional_duration
+from fixlib.utils import stdin_generator
+from fixlib.core.search import CoreGraph
+from fixlib.core.ca import TLSData
+from fixlib.core import add_args as core_add_args, fixcore
+from fixlib.jwt import add_args as jwt_add_args
 from typing import Dict, Optional, List, Type, Iterator, Union
 from pydoc import locate
 
@@ -30,8 +30,8 @@ def add_args(arg_parser: ArgumentParser) -> None:
     )
     arg_parser.add_argument(
         "--subscriber-id",
-        help="Unique subscriber ID (default: resotoappbundler)",
-        default="resotoappbundler",
+        help="Unique subscriber ID (default: fixinventoryappbundler)",
+        default="fixinventoryappbundler",
         dest="subscriber_id",
         type=str,
     )
@@ -56,14 +56,14 @@ def app_dry_run(manifest: Dict, config_path: str = None, argv: Optional[List[str
 
     if "search(" in manifest["source"]:
         tls_data: Optional[TLSData] = None
-        if resotocore.is_secure:
+        if fixcore.is_secure:
             tls_data = TLSData(
                 common_name=ArgumentParser.args.subscriber_id,
-                resotocore_uri=resotocore.http_uri,
+                fixcore_uri=fixcore.http_uri,
             )
             tls_data.start()
             tls_data.shutdown()
-        cg = CoreGraph(tls_data=tls_data, graph="resoto")
+        cg = CoreGraph(tls_data=tls_data, graph="fix")
         template.globals["search"] = cg.search
 
     if config_path is not None:

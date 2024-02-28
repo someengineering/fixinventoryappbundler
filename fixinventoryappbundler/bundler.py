@@ -2,7 +2,7 @@ import yaml
 import base64
 import hashlib
 from pathlib import Path
-from resotolib.args import ArgumentParser
+from fixlib.args import ArgumentParser
 from typing import Dict, List, Union
 
 
